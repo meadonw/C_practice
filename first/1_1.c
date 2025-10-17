@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <math.h>
+#include <locale.h>
+#define M_PI 3.14159265358979323846
 
 int main() {
     double x, e;
+    setlocale(0, "");
 
     printf("Введите X: ");
     int answer1 = scanf("%lf", &x);
-    
+
     if (answer1 != 1)
     {
         printf("Ошибка ввода данных.");
@@ -22,11 +25,23 @@ int main() {
         return 0;
     }
 
+    double original_x = x;
+
+    if (fabs(x) >= 2 * M_PI)
+    {
+        x = fmod(x, 2 * M_PI);
+
+        if (x < 0)
+        {
+            x += 2 * M_PI;
+        }
+    }
+    
     double sum = 0.0;
     double elem = x;
     double last_elem = 0.0;
     int n = 1;
-    
+
     if (fabs(x) < e)
     {
         sum = 0.0;
@@ -44,9 +59,10 @@ int main() {
 
     double exact_value = sin(x);
     double difference = sum - exact_value;
-    
+
     printf("\n");
-    printf("X = %.10f\n", x);
+    printf("Исходный X = %.10f\n", original_x);
+    printf("Приведеный X = %.10f\n", x);
     printf("E = %.10f\n", e);
     printf("Вычисленная сумма ряда = %.10f\n", sum);
     printf("Точное значение sin(X) = %.10f\n", exact_value);
